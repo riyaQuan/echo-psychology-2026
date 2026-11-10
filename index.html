@@ -307,14 +307,26 @@ nav{position:sticky;top:0;z-index:50;background:rgba(255,246,236,.88);backdrop-f
 .job .plus{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--navy);display:grid;place-items:center;
   font-weight:900;font-size:19px;transition:transform .25s;flex-shrink:0;background:var(--yellow)}
 .job[open] .plus{transform:rotate(45deg);background:var(--coral)}
-.job .jd{border-top:2.5px dashed rgba(29,53,87,.25);padding:26px 28px;display:grid;
-  grid-template-columns:1fr 1fr;gap:26px;background:var(--cream)}
-.jd h5{font-size:14px;font-weight:900;color:var(--teal-d);margin-bottom:12px;letter-spacing:1px}
-.jd ul{list-style:none}
-.jd li{font-size:13.5px;line-height:1.85;padding-left:18px;position:relative;margin-top:6px;opacity:.85}
-.jd li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:8px;border-radius:2px;
-  background:var(--coral);transform:rotate(45deg)}
-@media(max-width:800px){.job .jd{grid-template-columns:1fr}}
+.job .jd{border-top:2.5px dashed rgba(29,53,87,.25);padding:22px;background:var(--cream);display:block}
+.jd-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+.jd-table th{background:var(--coral-d);color:#fff;font-weight:900;font-size:12px;letter-spacing:1.5px;
+  padding:10px 14px;text-align:left;border-bottom:3px solid var(--navy)}
+.jd-table td{padding:9px 14px;border-bottom:1.5px dashed rgba(29,53,87,.12);vertical-align:top;line-height:1.7}
+.jd-table td:first-child{width:120px;min-width:100px;background:rgba(29,53,87,.06);font-weight:900;color:var(--navy);font-size:12.5px;letter-spacing:.5px}
+.jd-table tr:last-child td{border-bottom:none}
+.jd-table tr:hover td:first-child{background:rgba(29,53,87,.1)}
+.jd-table td:last-child{color:#333}
+@media(max-width:800px){.jd-table td:first-child{width:80px;min-width:70px}
+  .job summary{gap:10px;padding:18px 16px}
+  .job .tt b{font-size:15px}}
+
+/* 岗位审批尾行 */
+.jd-approve{margin-top:14px;padding-top:14px;border-top:2px dashed rgba(29,53,87,.15);font-size:12px;color:#666;display:flex;gap:16px;flex-wrap:wrap}
+.jd-approve b{color:var(--teal-d);font-weight:900;margin-right:4px}
+
+/* 岗位职责要点列表（从 / 分隔自动转换成换行已在html里做） */
+.jd-table td:last-child .bd{display:list-item;list-style:none;padding-left:16px;position:relative;margin-bottom:3px}
+.jd-table td:last-child .bd::before{content:"●";position:absolute;left:0;color:var(--coral);font-size:9px;top:4px}
 
 /* ---------- 招聘流程（深海） ---------- */
 .process{background:var(--navy);color:var(--cream)}
@@ -641,16 +653,79 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
     <p class="sec-sub rv d2">全部 base 北京 · 海淀区（校园渠道岗支持上海 / 广州，均支持实习转正）。点击岗位卡片，展开完整岗位说明书。</p>
     <div class="job-list">
       <details class="job rv">
-        <summary><div class="no" style="background:#8E7CC3">人</div><div class="tt"><b>人力资源专员（校招 & 组织发展方向）</b><span>职能支持部 · 招 3 人 · 本科及以上 · 人力资源管理专业优先（管理学院同专业欢迎）</span></div><div class="sal">6-8K · 实习转正</div><div class="plus">+</div></summary>
-        <div class="jd"><div><h5>岗位职责</h5><ul><li>负责全国 30+ 高校校招落地（宣讲会对接、面试安排、offer 发放）</li><li>协助搭建入职培训、绩效考核、员工心理关怀（EAP）体系</li><li>负责员工关系维护：弹性办公、心理假、团队建设</li><li>内部招聘平台运营（HR SaaS + 内推通道）</li></ul></div><div><h5>任职要求</h5><ul><li>人力资源管理 / 工商管理相关专业（管理学院同专业优先！）</li><li>有校园社团 HR / 志愿者管理经验加分</li><li>亲和力与原则性并存，不僵化</li><li>理解初创公司灵活性，愿意先做事再谈流程</li></ul></div></div>
+        <summary><div class="no" style="background:#8E7CC3">人</div><div class="tt"><b>人力资源专员（校招 & 组织发展方向）</b><span>职能支持部 · 招 3 人（校招 2 + 社招 1） · 本科及以上</span></div><div class="sal">6-8K · 实习转正</div><div class="plus">+</div></summary>
+        <div class="jd">
+          <table class="jd-table">
+            <thead><tr><th>项目</th><th>填写内容</th></tr></thead>
+            <tbody>
+              <tr><td>岗位名称</td><td>人力资源专员（校招与组织发展方向）</td></tr>
+              <tr><td>所属部门</td><td>职能支持部</td></tr>
+              <tr><td>招聘人数</td><td>3 人（校招 2 人、社招 1 人）</td></tr>
+              <tr><td>岗位性质与薪酬</td><td>全职，含实习转正；6000—8000 元/月，实习期按 80% 发放</td></tr>
+              <tr><td>直接上级</td><td>职能支持部负责人</td></tr>
+              <tr><td>工作地点</td><td>北京市海淀区公司总部（可接受校招季短期外出）</td></tr>
+              <tr><td>岗位目标</td><td>配合搭建公司人才招聘体系，主导校园招聘全流程落地；协助开展组织发展与员工培养工作，完善基础人事管理机制，为业务部门稳定输送适配人才，支撑团队有序扩张。</td></tr>
+              <tr><td>岗位职责</td><td>1. 校园招聘执行：对接高校就业办与院系，筹备宣讲会、双选会，承担简历筛选、笔面试组织、候选人跟进与 offer 沟通，建立校招人才储备池。<br>2. 基础人事管理：办理员工入转调离手续，管理劳动合同与人事档案，核算考勤，保证人事资料完整合规。<br>3. 组织发展支持：协助搭建新人入职培训体系并组织实施，收集员工反馈，开展员工访谈与满意度调研。<br>4. 数据台账维护：统计招聘到岗率、简历转化率、人员流失率等数据，定期输出招聘复盘报表。<br>5. 制度宣导落地：解答员工关于考勤、假期、福利等人力资源政策疑问，配合完成部门交办的其他工作。</td></tr>
+              <tr><td>学历与专业要求</td><td>本科及以上学历，人力资源管理、工商管理、心理学等相关专业优先。</td></tr>
+              <tr><td>经验要求</td><td>1. 拥有人力资源相关实习经历或校园招聘项目经验者优先；<br>2. 具有学生干部经历、心理服务或互联网初创公司人力经验者加分。</td></tr>
+              <tr><td>技能要求</td><td>1. 熟悉校园招聘流程与主流招聘平台操作；<br>2. 熟练使用 Office，能独立完成招聘宣讲材料与数据统计表；<br>3. 具备较好的书面表达与沟通协调能力；<br>4. 对人员信息有保密意识。</td></tr>
+              <tr><td>素质要求</td><td>1. 责任心强，时间观念好，能适应校招季阶段性加班；<br>2. 耐心、共情能力强，情绪稳定，认可心理健康行业价值。</td></tr>
+              <tr><td>工作时间</td><td>周一至周五 9:00—18:00；校招季（3—4 月、9—11 月）需配合宣讲与面试安排，占用时间予以调休。</td></tr>
+              <tr><td>考核指标</td><td>1. 校招岗位按期到岗率；<br>2. 简历筛选与面试安排响应时效；<br>3. 人事手续差错率为零；新人培训完成率；<br>4. 业务部门与候选人满意度。</td></tr>
+            </tbody>
+          </table>
+          <div class="jd-approve"><span><b>用人部门负责人：</b>徐晗</span><span><b>人力资源部：</b>徐晗</span><span><b>分管领导：</b>全智贤</span><span><b>填表日期：</b>2026 年 11 月 10 日</span></div>
+        </div>
       </details>
       <details class="job rv d1">
-        <summary><div class="no" style="background:#C46A3F">校</div><div class="tt"><b>高校渠道 BD 专员（校园市场方向）</b><span>市场品牌部 · 招 4 人 · 本科及以上 · 专业不限（北京 / 上海 / 广州各 1-2 人）</span></div><div class="sal">5-7K + 提成</div><div class="plus">+</div></summary>
-        <div class="jd"><div><h5>岗位职责</h5><ul><li>对接全国 30+ 高校心理中心与学工部门，落地「校园心理角」合作</li><li>组织校园宣讲、树洞活动、心理工作坊（目标每学期 50 场）</li><li>招募、管理 300+ 校园大使与社群 KOC</li><li>校园社群运营（50 个社群、2 万+ 活跃用户），协助写校园端品牌内容</li></ul></div><div><h5>任职要求</h5><ul><li>沟通有分寸，能在老师和学生之间自如切换</li><li>有学生组织、社团、校园大使或学生会宣传经历者优先</li><li>熟校园生态，能快速跟大学生打成一片</li><li>愿意出差（每月 4-6 次高校，差旅全报）</li></ul></div></div>
+        <summary><div class="no" style="background:#C46A3F">校</div><div class="tt"><b>高校渠道 BD 专员（校园市场方向）</b><span>市场品牌部 · 招 4 人（北京 / 上海 / 广州各 1-2 人） · 本科及以上 · 专业不限</span></div><div class="sal">5-7K + 提成</div><div class="plus">+</div></summary>
+        <div class="jd">
+          <table class="jd-table">
+            <thead><tr><th>项目</th><th>填写内容</th></tr></thead>
+            <tbody>
+              <tr><td>岗位名称</td><td>高校渠道 BD 专员（校园市场方向）</td></tr>
+              <tr><td>所属部门</td><td>市场品牌部</td></tr>
+              <tr><td>招聘人数</td><td>4 人（北京、上海、广州各 1—2 人）</td></tr>
+              <tr><td>岗位性质与薪酬</td><td>全职；5000—7000 元/月 + 渠道业绩提成</td></tr>
+              <tr><td>直接上级</td><td>市场品牌负责人</td></tr>
+              <tr><td>工作地点</td><td>北京、上海、广州（按所在城市驻点，需常态化走访高校）</td></tr>
+              <tr><td>岗位目标</td><td>负责所在城市高校渠道的开拓与维护，搭建公司在高校的合作网络，推动心理服务产品进校园；落地校园品牌活动，提升公司在高校师生中的知名度，完成渠道拓展与转化目标。</td></tr>
+              <tr><td>岗位职责</td><td>1. 渠道开拓：对接高校学工处、心理中心、院系与社团，洽谈心理讲座、团体辅导、心理测评、校园心理活动等合作项目并签订协议。<br>2. 渠道维护：定期回访已合作院校，跟进项目执行，处理合作问题，挖掘复购需求。<br>3. 活动落地：策划并执行校园宣讲、心理沙龙、心理健康月等品牌活动，协调场地、物料与讲师，跟进活动全流程。<br>4. 市场推广：在高校社群与校园平台发布品牌内容，收集师生需求线索并推动转化。<br>5. 数据复盘：建立渠道对接台账，统计合作院校数量、活动场次与订单转化，定期复盘并优化拓展策略；同步反馈高校需求与竞品信息。</td></tr>
+              <tr><td>学历与专业要求</td><td>本科及以上学历，专业不限，心理学、市场营销、传播学等相关专业优先。</td></tr>
+              <tr><td>经验要求</td><td>1. 有校园 BD、校园大使、社团负责人或高校市场相关实习经验者优先；<br>2. 拥有高校心理中心、学工系统资源者加分。</td></tr>
+              <tr><td>技能要求</td><td>1. 具备较强的商务沟通与谈判能力，能独立撰写合作方案与活动策划；<br>2. 熟悉高校运作逻辑与心理健康工作模式者优先；<br>3. 具备基础项目统筹能力，可独立落地一场校园活动。</td></tr>
+              <tr><td>素质要求</td><td>1. 外向主动，目标感与抗压能力强，接受业绩提成机制；<br>2. 同理心强，言行得体，理解心理健康服务的边界与伦理；<br>3. 诚信自律，具有契约精神，维护公司品牌形象。</td></tr>
+              <tr><td>工作时间</td><td>周一至周五 9:00—18:00；校园活动多安排在晚间或周末，按活动轮班并安排调休。</td></tr>
+              <tr><td>考核指标</td><td>1. 新增合作高校数量；<br>2. 合作项目签约额与业绩达成率；<br>3. 已合作院校续约率；校园活动落地场次与师生满意度；<br>4. 渠道台账完整度。</td></tr>
+            </tbody>
+          </table>
+          <div class="jd-approve"><span><b>用人部门负责人：</b>徐睿真</span><span><b>人力资源部：</b>徐晗</span><span><b>分管领导：</b>全智贤</span><span><b>填表日期：</b>2026 年 11 月 10 日</span></div>
+        </div>
       </details>
       <details class="job rv d2">
         <summary><div class="no" style="background:var(--coral-d)">产</div><div class="tt"><b>产品经理（心理服务方向）</b><span>产品技术部 · 招 3 人 · 本科及以上 · 心理学 / 计算机 / 设计相关专业优先</span></div><div class="sal">6-8K · 实习转正</div><div class="plus">+</div></summary>
-        <div class="jd"><div><h5>岗位职责</h5><ul><li>负责 AI 情绪伙伴「小回」功能迭代（目标从 15 万到 30 万用户），撰写 PRD 并跟进上线</li><li>真人咨询匹配算法优化、高危预警模块设计</li><li>每周收集 100+ 条用户与咨询师反馈，用数据验证每一次改动</li><li>协同设计、研发、咨询服务部推进项目落地</li></ul></div><div><h5>任职要求</h5><ul><li>有极强的同理心，对心理健康议题有真诚热情（心理学背景加分但不强制，合规有持证咨询师把关）</li><li>逻辑清晰，能把用户反馈整理成结构化报告</li><li>熟练使用 Figma / Axure 输出原型，具备基础数据分析能力</li><li>有 C 端产品实习或校园项目经历者优先</li></ul></div></div>
+        <div class="jd">
+          <table class="jd-table">
+            <thead><tr><th>项目</th><th>填写内容</th></tr></thead>
+            <tbody>
+              <tr><td>岗位名称</td><td>产品经理（心理服务方向）</td></tr>
+              <tr><td>所属部门</td><td>产品技术部</td></tr>
+              <tr><td>招聘人数</td><td>3 人</td></tr>
+              <tr><td>岗位性质与薪酬</td><td>全职，含实习转正；6000—8000 元/月</td></tr>
+              <tr><td>直接上级</td><td>产品技术部负责人</td></tr>
+              <tr><td>工作地点</td><td>北京市海淀区公司总部</td></tr>
+              <tr><td>岗位目标</td><td>围绕心理健康服务场景，负责心理类 C 端与 B 端产品的需求调研、方案设计与版本迭代；联动研发、运营与高校渠道，打造适配学生与高校场景的心理服务产品，保障产品稳定落地并持续优化。</td></tr>
+              <tr><td>岗位职责</td><td>1. 需求调研：访谈高校心理老师、学生与咨询师，梳理心理测评、心理咨询、心理课程、团体辅导等场景需求，形成需求文档。<br>2. 方案设计：输出 PRD、原型与流程图，完成测评系统、预约平台、课程工具等功能设计。<br>3. 项目推进：对接研发、UI 与测试，跟进开发、测试与上线，协调解决卡点，把控版本进度。<br>4. 迭代优化：收集用户与渠道反馈，监控产品使用数据，输出迭代方案并推动落地。<br>5. 行业研究：跟踪心理健康与校园心理赛道竞品动态，形成产品优化建议；配合市场与渠道团队输出产品介绍与演示版本。</td></tr>
+              <tr><td>学历与专业要求</td><td>本科及以上学历，心理学、计算机、交互设计、信息管理等相关专业优先。</td></tr>
+              <tr><td>经验要求</td><td>1. 有产品经理实习经历或心理平台、校园心理项目经验者优先；<br>2. 了解心理咨询与心理测评基础理论者加分。</td></tr>
+              <tr><td>技能要求</td><td>1. 熟练使用 Axure、Figma 等原型工具，能独立输出 PRD 与产品原型；<br>2. 理解基础技术逻辑，可与研发顺畅沟通；<br>3. 具备用户思维与基础数据分析能力。</td></tr>
+              <tr><td>素质要求</td><td>1. 逻辑清晰、严谨细致，文档规范；<br>2. 共情力强，尊重心理服务伦理，重视数据安全与用户隐私；<br>3. 抗压能力强，能多项目并行并推动跨部门协作。</td></tr>
+              <tr><td>工作时间</td><td>周一至周五 9:00—18:00；版本上线前按项目节奏配合加班，予以调休。</td></tr>
+              <tr><td>考核指标</td><td>1. 产品版本按期上线率；<br>2. 需求文档与原型交付质量；<br>3. 用户反馈问题闭环时效；<br>4. 合作高校产品满意度；<br>5. 核心功能使用率。</td></tr>
+            </tbody>
+          </table>
+          <div class="jd-approve"><span><b>用人部门负责人：</b>陈若汛</span><span><b>人力资源部：</b>徐晗</span><span><b>分管领导：</b>全智贤</span><span><b>填表日期：</b>2026 年 11 月 10 日</span></div>
+        </div>
       </details>
     </div>
   </div>
