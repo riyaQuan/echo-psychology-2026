@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>回声心理 MindIsle · 让每一种情绪都有回音</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 56'%3E%3Cellipse cx='34' cy='34' rx='24' ry='15' fill='%231D3557'/%3E%3Cpath d='M54 24q14-10 16 2-9 5-16 3z' fill='%231D3557'/%3E%3Cellipse cx='28' cy='40' rx='14' ry='6' fill='%23FFF6EC'/%3E%3Ccircle cx='24' cy='30' r='3' fill='%23FFF6EC'/%3E%3Cpath d='M34 16q-2-8-8-10M38 16q0-9 5-12M30 17q-5-6-11-6' stroke='%234A9FD8' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --cream:#FFF6EC; --cream2:#FFEEDC; --navy:#1D3557; --navy2:#142746;
+  --coral:#FF8B6B; --coral-d:#FF6B4A; --teal:#2EC4B6; --teal-d:#1FA79A;
+  --yellow:#FFD166; --blue:#4A9FD8; --mint:#EAF7F5; --butter:#FFF3D2; --sky:#F0F7FF;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  background:var(--cream); color:var(--navy); overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--yellow); color:var(--navy)}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");}
+.tag{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--navy);
+  border-radius:999px;padding:8px 18px;font-size:14px;font-weight:700;
+  box-shadow:4px 4px 0 var(--navy);transform:rotate(-1.5deg)}
+.tag .dot{width:9px;height:9px;border-radius:50%;background:var(--coral-d)}
+.sec-kicker{display:inline-block;font-size:13px;font-weight:800;letter-spacing:3px;color:var(--teal-d);
+  background:#fff;border:2px solid var(--teal);border-radius:999px;padding:7px 16px;margin-bottom:18px;
+  box-shadow:3px 3px 0 var(--teal)}
+h2.sec-title{font-size:clamp(30px,4.5vw,46px);font-weight:900;letter-spacing:-1px;line-height:1.25}
+.hl{background:linear-gradient(180deg,transparent 62%,var(--yellow) 62%,var(--yellow) 94%,transparent 94%);padding:0 6px}
+.hl-c{background:linear-gradient(180deg,transparent 62%,rgba(255,139,107,.75) 62%,rgba(255,139,107,.75) 94%,transparent 94%);padding:0 6px}
+.sec-sub{margin-top:14px;font-size:16px;line-height:1.9;opacity:.78;max-width:640px}
+section{padding:96px 0;position:relative}
+.rv{opacity:0;transform:translateY(34px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+@keyframes heartbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(255,139,107,.4)}50%{box-shadow:0 0 20px 6px rgba(255,139,107,.2)}}
+@keyframes node-pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.2);box-shadow:3px 3px 0 rgba(255,139,107,.5)}}
+.hb{animation:heartbeat 1.6s ease-in-out infinite}
+.glow{animation:glow 2.2s ease-in-out infinite}
+.node-pulse{animation:node-pulse 2s ease-in-out infinite}
+.dec{position:absolute;pointer-events:none;opacity:.8;z-index:1}
+.dec-blob{position:absolute;border-radius:50%;filter:blur(6px);opacity:.25;pointer-events:none}
+nav{position:sticky;top:0;z-index:50;background:rgba(255,246,236,.88);backdrop-filter:blur(12px);
+  border-bottom:2px solid rgba(29,53,87,.08)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px}
+.logo svg{width:44px;height:34px}
+.logo small{font-size:10px;font-weight:700;color:var(--teal-d);letter-spacing:2px;display:block;line-height:1}
+.nav-links{display:flex;gap:22px;font-size:14px;font-weight:700}
+.nav-links a{position:relative;padding:6px 2px;opacity:.8}
+.nav-links a:hover{opacity:1;color:var(--coral-d)}
+.nav-cta{background:var(--navy);color:#fff;font-weight:800;font-size:14px;padding:11px 22px;
+  border-radius:999px;border:2px solid var(--navy);box-shadow:3px 3px 0 var(--coral-d);
+  transition:transform .15s,box-shadow .15s}
+.nav-cta:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--coral-d)}
+@media(max-width:900px){.nav-links{display:none}}
+.hero{padding:74px 0 120px;background:
+  radial-gradient(640px 420px at 88% 8%,rgba(255,209,102,.4),transparent 65%),
+  radial-gradient(720px 520px at -8% 96%,rgba(46,196,182,.20),transparent 60%),var(--cream)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(40px,5.6vw,66px);font-weight:900;line-height:1.18;letter-spacing:-2px;margin:26px 0 20px}
+.hero p.lead{font-size:17px;line-height:2;opacity:.8;max-width:520px}
+.hero-btns{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap}
+.btn{font-weight:800;font-size:15.5px;padding:15px 30px;border-radius:999px;border:2px solid var(--navy);
+  transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;gap:8px}
+.btn-p{background:var(--coral-d);color:#fff;box-shadow:5px 5px 0 var(--navy)}
+.btn-s{background:#fff;color:var(--navy);box-shadow:5px 5px 0 var(--teal)}
+.btn:hover{transform:translate(-2px,-2px)}
+.btn-p:hover{box-shadow:8px 8px 0 var(--navy)}
+.btn-s:hover{box-shadow:8px 8px 0 var(--teal)}
+.hero-fig{position:relative}
+.hero-fig .frame{border-radius:36px;overflow:hidden;border:3px solid var(--navy);
+  box-shadow:12px 12px 0 rgba(29,53,87,.16);transform:rotate(1.2deg)}
+.hero-fig img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/10.5}
+.badge-f{position:absolute;background:#fff;border:2px solid var(--navy);border-radius:18px;
+  padding:10px 16px;font-size:13px;font-weight:800;box-shadow:4px 4px 0 var(--navy);display:flex;gap:8px;align-items:center}
+.b1{top:-18px;left:-14px;transform:rotate(-4deg)}
+.b2{bottom:22px;right:-16px;transform:rotate(3deg)}
+.b2 .dot{background:var(--teal)}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero{padding-top:48px}}
+.dec-blob{position:absolute;border-radius:50%;filter:blur(6px);opacity:.25;pointer-events:none}
+footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;font-size:13px}
+.ft{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+.ft .logo{color:#fff}
+.ft p{line-height:2;opacity:.7;max-width:420px}
+.ft .gp{text-align:right;line-height:2}
+.ft .gp b{color:#fff;font-size:14px}
+@media(max-width:700px){.ft .gp{text-align:left}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- ================= 导航 ================= -->
+<nav>
+  <div class="wrap nav-in">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 72 56"><ellipse cx="34" cy="34" rx="24" ry="15" fill="#1D3557"/><path d="M54 24q14-10 16 2-9 5-16 3z" fill="#1D3557"/><ellipse cx="28" cy="40" rx="14" ry="6" fill="#FFF6EC"/><circle cx="24" cy="30" r="3" fill="#FFF6EC"/><path d="M34 16q-2-8-8-10M38 16q0-9 5-12M30 17q-5-6-11-6" stroke="#4A9FD8" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+      <span>回声心理<small>ECHO</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#product">产品</a><a href="#counsel">真人咨询</a><a href="#business">业务</a>
+      <a href="#university">高校合作</a><a href="#welfare">公益</a><a href="#about">关于我们</a><a href="#contact">联系</a>
+    </div>
+    <a href="recruit.html" class="nav-cta" style="background:#fff;color:var(--navy);border:2px solid var(--navy);box-shadow:3px 3px 0 var(--coral-d)">🎓 宣讲会</a>
+    <a class="nav-cta" href="#product">下载 App</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="tag rv"><span class="dot"></span>北京回声心理科技有限公司</span>
+      <h1 class="rv d1">让每一种情绪，<br><span class="hl">都有回音</span></h1>
+      <p class="lead rv d2">回声心理成立于 2024 年，由管理学院的七位志愿者从一间社团活动室起步。两年后的今天，我们有 18 位全职同事、120 位签约持证咨询师、AI 情绪伙伴「小回」服务 15 万+ 用户，以及北京、上海、广州 3 个面询中心。<br><br>用科技降低心理求助的门槛，让被听见成为日常。</p>
+      <div class="hero-btns rv d3">
+        <a class="btn btn-p glow hb rv d2" href="#product">了解核心产品 →</a>
+        <a class="btn btn-s rv d3" href="#counsel">预约真人咨询</a>
+      </div>
+    </div>
+    <div class="hero-fig rv d2">
+      <div class="frame">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=2D%20flat%20vector%20illustration%2C%20minimalist%20geometric%2C%20young%20person%20meditating%20cross-legged%20on%20tiny%20cream%20island%20with%20round%20tree%20and%20small%20lighthouse%2C%20cute%20round%20navy%20blue%20whale%20in%20layered%20teal%20waves%2C%20speech%20bubbles%20with%20hearts%20and%20stars%2C%20paper%20plane%20in%20coral%20dusk%20sky%2C%20warm%20healing%2C%20wide%20composition%2C%20no%20text&image_size=landscape_16_9" alt="回声心理主视觉">
+      </div>
+      <div class="badge-f b1"><span class="dot" style="width:9px;height:9px;border-radius:50%;background:var(--coral-d)"></span>AI 情绪伙伴「小回」</div>
+      <div class="badge-f b2"><span class="dot" style="width:9px;height:9px;border-radius:50%"></span>7×24h 温柔在线</div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 品牌故事 ================= -->
+<section style="background:var(--navy);color:var(--cream);padding:110px 0 100px">
+  <div class="wrap">
+    <span class="sec-kicker rv" style="border-color:var(--yellow);color:var(--yellow);background:transparent;box-shadow:3px 3px 0 rgba(255,209,102,.5)">品牌故事 · WHY WE EXIST</span>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:24px">
+      <div>
+        <h2 class="rv d1" style="font-size:clamp(28px,3.8vw,42px);font-weight:900;line-height:1.4">那头 <span style="color:var(--yellow)">52 赫兹</span>的鲸，<br>我们听见了。</h2>
+        <p class="rv d2" style="margin-top:22px;line-height:2.1;font-size:15.5px;opacity:.85">1989 年，科学家在太平洋发现一头独特的鲸，它的发声频率是 52 赫兹——远高于其他鲸类，因此没有同类能听见它。它被称为「世界上最孤独的鲸」。</p>
+        <p class="rv d2" style="margin-top:14px;line-height:2.1;font-size:15.5px;opacity:.85">每一个深夜里辗转难眠的年轻人，都可能是一头 52 赫兹的鲸：情绪真实存在，却很少被听见、被回应。回声心理，就是想做那个听见的人。</p>
+        <p class="rv d3" style="margin-top:14px;line-height:2.1;font-size:15.5px;opacity:.85">故事从 2024 年秋开始——几个管理学院的学生在心理咨询中心做志愿者，慢慢办起了「回声心理社」。一张沙发、两把椅子，两年里接待了 1200 多位来倾诉的同学。很多人第一次在这里把心里的话说出口，然后发现自己不是一个人在扛。</p>
+        <p class="rv d3" style="margin-top:14px;line-height:2.1;font-size:15.5px;opacity:.85">2024 年 11 月拿到校友天使种子轮 120 万，2025 年 12 月教育基金会天使轮 500 万到账，2026 年 3 月注册成立北京回声心理科技有限公司。回声取自「有话，必有回响」：你开口，就一定有人回应。</p>
+      </div>
+      <div class="rv d2" style="border-radius:32px;overflow:hidden;border:3px solid rgba(255,246,236,.35);box-shadow:12px 12px 0 rgba(0,0,0,.25);transform:rotate(-1.4deg)">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=2D%20flat%20vector%20illustration%2C%20minimalist%20geometric%2C%20lone%20cute%20navy%20blue%20whale%20singing%20with%20circular%20sound%20waves%20in%20deep%20teal%20sea%2C%20tiny%20stars%20in%20dark%20blue%20sky%2C%20soft%20coral%20accents%2C%20melancholic%20yet%20warm%2C%20no%20text&image_size=landscape_4_3" alt="52赫兹的鲸" style="aspect-ratio:4/2.9;object-fit:cover;width:100%">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 核心产品 AI 小回 ================= -->
+<section id="product" style="background:var(--mint);padding:96px 0">
+  <div class="dec-blob" style="top:-60px;right:-40px;width:200px;height:200px;background:#FFD166"></div>
+  <div class="dec-blob" style="bottom:-80px;left:-40px;width:180px;height:180px;background:#2EC4B6;opacity:.18"></div>
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:.92fr 1.08fr;gap:60px;align-items:center">
+      <div class="rv">
+        <div style="border-radius:36px;overflow:hidden;border:3px solid var(--navy);box-shadow:-12px 12px 0 rgba(46,196,182,.35);transform:rotate(-1.2deg)">
+          <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=2D%20flat%20vector%20illustration%2C%20minimalist%20geometric%2C%20big%20upright%20smartphone%20showing%20cute%20mental%20health%20app%20interface%20with%20whale%20avatar%20chat%20bubbles%20and%20mood%20line%20chart%2C%20floating%20UI%20cards%20hearts%20stars%20and%20potted%20plants%20around%2C%20relaxed%20young%20person%20leaning%20on%20the%20phone%2C%20coral%20teal%20cream%20navy%20palette%2C%20warm%20healing%20mood%2C%20no%20text&image_size=square" alt="回声App" style="aspect-ratio:1/1;object-fit:cover;width:100%">
+        </div>
+      </div>
+      <div>
+        <span class="sec-kicker rv">核心产品 · OUR PRODUCT</span>
+        <h2 class="sec-title rv d1">「回声」App<br>你的 <span class="hl">随身心理伙伴</span></h2>
+        <p class="sec-sub rv d2">上线 5 个月，注册用户突破 15 万，次日留存 62%。我们用产品把「被听见」变成一件随时可及的小事。</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px">
+          <div class="f rv" style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:22px;box-shadow:5px 5px 0 rgba(29,53,87,.12);transition:transform .2s"><div class="ic" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin-bottom:14px;border:2px solid var(--navy);background:var(--mint)">🤖</div><h4 style="font-size:16.5px;font-weight:900">AI 情绪伙伴「小回」</h4><p style="margin-top:8px;font-size:13.5px;line-height:1.8;opacity:.68">基于情感计算大模型，7×24h 倾听倾诉、识别情绪、温柔回应</p></div>
+          <div class="f rv d1" style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:22px;box-shadow:5px 5px 0 rgba(29,53,87,.12);transition:transform .2s"><div class="ic" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin-bottom:14px;border:2px solid var(--navy);background:var(--butter)">📊</div><h4 style="font-size:16.5px;font-weight:900">心情气象站</h4><p style="margin-top:8px;font-size:13.5px;line-height:1.8;opacity:.68">情绪日记 + 心情曲线可视化，让波动被看见、被理解</p></div>
+          <div class="f rv d2" style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:22px;box-shadow:5px 5px 0 rgba(29,53,87,.12);transition:transform .2s"><div class="ic" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin-bottom:14px;border:2px solid var(--navy);background:#FFE9E3">💙</div><h4 style="font-size:16.5px;font-weight:900">专业咨询师匹配</h4><p style="margin-top:8px;font-size:13.5px;line-height:1.8;opacity:.68">严选持证咨询师，智能匹配 + 预约视频咨询，严肃专业</p></div>
+          <div class="f rv d3" style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:22px;box-shadow:5px 5px 0 rgba(29,53,87,.12);transition:transform .2s"><div class="ic" style="width:46px;height:46px;border-radius:14px;display:grid;place-items:center;margin-bottom:14px;border:2px solid var(--navy);background:#E8F0FF">🏫</div><h4 style="font-size:16.5px;font-weight:900">校园心理角</h4><p style="margin-top:8px;font-size:13.5px;line-height:1.8;opacity:.68">与高校共建匿名互助社区 + 心理普查 SaaS，守护同龄人</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 真人心理咨询 ================= -->
+<section id="counsel" style="background:var(--sky);padding:96px 0">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center">
+      <div>
+        <span class="sec-kicker rv">真人心理咨询 · HUMAN CARE</span>
+        <h2 class="sec-title rv d1">AI 听得见，<br><span class="hl">人接得住</span></h2>
+        <p class="sec-sub rv d2">我们不做「用 AI 取代咨询师」的事。AI 负责凌晨三点那第一句回应，持证咨询师负责真正专业的陪伴——两句回答中间，是一条完整的服务链。这也是从校园社团一路带过来的底线：真人，永远在场。</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px">
+          <div style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="n2" style="font-size:32px;font-weight:900;line-height:1;letter-spacing:-1px"><span class="cnt" data-to="120">0</span><em style="font-style:normal;font-size:.55em">+</em></div><p style="font-size:12.5px;line-height:1.7;opacity:.65;margin-top:8px">签约持证咨询师（国家二/三级、注册系统心理师）</p></div>
+          <div style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="n2" style="font-size:32px;font-weight:900;line-height:1;letter-spacing:-1px"><span class="cnt" data-to="1.2" data-dec="1">0</span><em style="font-style:normal;font-size:.55em">万</em></div><p style="font-size:12.5px;line-height:1.7;opacity:.65;margin-top:8px">累计真人咨询人次，累计咨询时长超 12000 小时</p></div>
+          <div style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="n2" style="font-size:32px;font-weight:900;line-height:1;letter-spacing:-1px"><span class="cnt" data-to="96">0</span><em style="font-style:normal;font-size:.55em">%</em></div><p style="font-size:12.5px;line-height:1.7;opacity:.65;margin-top:8px">咨询满意度（2026 Q3 匿名回访，样本 3000）</p></div>
+          <div style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="n2" style="font-size:32px;font-weight:900;line-height:1;letter-spacing:-1px"><span class="cnt" data-to="10">0</span><em style="font-style:normal;font-size:.55em">分钟</em></div><p style="font-size:12.5px;line-height:1.7;opacity:.65;margin-top:8px">危机干预小组平均响应时长，24 小时待命</p></div>
+        </div>
+      </div>
+      <div class="rv d2" style="background:#fff;border:2.5px solid var(--navy);border-radius:30px;padding:34px;box-shadow:9px 9px 0 rgba(74,159,216,.32)">
+        <h4 style="font-size:17px;font-weight:900;display:flex;align-items:center;gap:10px">咨询是怎么匹配上的<span style="font-size:11px;background:var(--mint);color:var(--teal-d);border:1.5px solid var(--teal);padding:3px 10px;border-radius:999px;font-weight:800">4 步</span></h4>
+        <div class="flow" style="margin-top:24px;display:grid;gap:14px">
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px;border-radius:16px;background:var(--cream);border:2px dashed rgba(29,53,87,.25)"><b style="width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:14px;flex-shrink:0;border:2px solid var(--navy)">1</b><div class="tx" style="font-size:13.5px;line-height:1.7"><strong style="display:block;font-size:14.5px;margin-bottom:3px">5 分钟自评量表</strong><small style="opacity:.62;font-size:12.5px">PHQ-9 / GAD-7 等标准量表，系统初判需要的支持强度</small></div></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px;border-radius:16px;background:var(--cream);border:2px dashed rgba(29,53,87,.25)"><b style="width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:14px;flex-shrink:0;border:2px solid var(--navy)">2</b><div class="tx" style="font-size:13.5px;line-height:1.7"><strong style="display:block;font-size:14.5px;margin-bottom:3px">匹配 3 位候选咨询师</strong><small style="opacity:.62;font-size:12.5px">按议题、流派、性别偏好、可约时段推荐，可自由更换</small></div></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px;border-radius:16px;background:var(--cream);border:2px dashed rgba(29,53,87,.25)"><b style="width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:14px;flex-shrink:0;border:2px solid var(--navy)">3</b><div class="tx" style="font-size:13.5px;line-height:1.7"><strong style="display:block;font-size:14.5px;margin-bottom:3px">首次评估（30 分钟，免费）</strong><small style="opacity:.62;font-size:12.5px">咨询师判断是否适合咨询，不适合则转介，绝不过度留客</small></div></div>
+          <div style="display:flex;gap:16px;align-items:flex-start;padding:14px;border-radius:16px;background:var(--cream);border:2px dashed rgba(29,53,87,.25)"><b style="width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:14px;flex-shrink:0;border:2px solid var(--navy)">4</b><div class="tx" style="font-size:13.5px;line-height:1.7"><strong style="display:block;font-size:14.5px;margin-bottom:3px">正式咨询 + 每 6 次阶段评估</strong><small style="opacity:.62;font-size:12.5px">单次 50 分钟，阶段性评估进展，可随时终止或转介</small></div></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
+          <span style="font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:999px;border:2px solid var(--navy);background:var(--coral);color:#fff">线下面询 · 北京海淀 / 上海杨浦 / 广州天河</span>
+          <span style="font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:999px;border:2px solid var(--navy);background:var(--yellow)">视频咨询</span>
+          <span style="font-size:12.5px;font-weight:800;padding:8px 15px;border-radius:999px;border:2px solid var(--navy);background:var(--teal);color:#fff">文字倾诉</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px">
+      <div class="rv" style="background:rgba(255,255,255,.75);border:2.5px solid var(--navy);border-radius:22px;padding:24px;box-shadow:5px 5px 0 rgba(29,53,87,.1)"><b style="font-size:15.5px;display:block">资质三重审核</b><p style="font-size:12.5px;line-height:1.8;opacity:.68;margin-top:8px">证书核验 + 案例面试 + 模拟咨询试讲，2026 年投递通过率仅 18%，宁缺毋滥。</p></div>
+      <div class="rv d1" style="background:rgba(255,255,255,.75);border:2.5px solid var(--navy);border-radius:22px;padding:24px;box-shadow:5px 5px 0 rgba(29,53,87,.1)"><b style="font-size:15.5px;display:block">督导与伦理</b><p style="font-size:12.5px;line-height:1.8;opacity:.68;margin-top:8px">每位咨询师每月 1 次个体督导、每周 1 次团体督导；签署伦理守则，违规一票下线。</p></div>
+      <div class="rv d2" style="background:rgba(255,255,255,.75);border:2.5px solid var(--navy);border-radius:22px;padding:24px;box-shadow:5px 5px 0 rgba(29,53,87,.1)"><b style="font-size:15.5px;display:block">危机干预兜底</b><p style="font-size:12.5px;line-height:1.8;opacity:.68;margin-top:8px">24 小时危机小组 + 精神科绿色转诊通道，AI 识别到高危信号 10 分钟内人工介入。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 三大业务线 ================= -->
+<section id="business" style="background:#FFF3D2;padding:96px 0">
+  <div class="dec-blob" style="top:-60px;left:10%;width:180px;height:180px;background:#FF8B6B;opacity:.18"></div>
+  <div class="dec-blob" style="bottom:-60px;right:5%;width:180px;height:180px;background:#2EC4B6;opacity:.15"></div>
+  <div class="wrap">
+    <span class="sec-kicker rv">业务版图 · WHAT WE DO</span>
+    <h2 class="sec-title rv d1">三大业务线，<span class="hl">可持续盈利</span> + 公益并行</h2>
+    <p class="sec-sub rv d2">回声心理收入来源清晰稳定，公益项目（偏远心理支教、免费咨询热线）由盈利业务反向支撑。</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:32px">
+      <div class="rv" style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:26px;box-shadow:5px 5px 0 #1D3557;position:relative">
+        <div style="position:absolute;top:-14px;left:20px;background:#FF6B4A;color:#fff;font-weight:900;font-size:12px;padding:5px 14px;border:2px solid #1D3557;border-radius:999px">核心</div>
+        <div style="font-size:48px;margin:18px 0 10px">🤖</div>
+        <h4 style="color:#FF6B4A;font-size:18px;font-weight:900;margin-bottom:8px">AI 情绪伙伴「小回」+ 宠物陪伴 + 情绪小游戏</h4>
+        <p style="font-size:13px;line-height:1.7;opacity:.8">15 万+ 用户 · 日活 2.3 万 · NPS 72<br>订阅制会员 + 心理测评付费</p>
+      </div>
+      <div class="rv d1" style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:26px;box-shadow:5px 5px 0 #1D3557;position:relative">
+        <div style="position:absolute;top:-14px;left:20px;background:#1FA79A;color:#fff;font-weight:900;font-size:12px;padding:5px 14px;border:2px solid #1D3557;border-radius:999px">壁垒</div>
+        <div style="font-size:48px;margin:18px 0 10px">👩‍⚕️</div>
+        <h4 style="color:#1FA79A;font-size:18px;font-weight:900;margin-bottom:8px">线上 24h + 线下 3 城 持证咨询师 视频面对面</h4>
+        <p style="font-size:13px;line-height:1.7;opacity:.8">120+ 持证咨询师 · 视频面对面 · 高校心理医生入驻<br>按次付费 + 高校团购 + 企业 EAP</p>
+      </div>
+      <div class="rv d2" style="background:#fff;border:2.5px solid var(--navy);border-radius:22px;padding:26px;box-shadow:5px 5px 0 #1D3557;position:relative">
+        <div style="position:absolute;top:-14px;left:20px;background:#1D3557;color:#fff;font-weight:900;font-size:12px;padding:5px 14px;border:2px solid #1D3557;border-radius:999px">增长</div>
+        <div style="font-size:48px;margin:18px 0 10px">🏫</div>
+        <h4 style="color:#1D3557;font-size:18px;font-weight:900;margin-bottom:8px">30+ 高校心理中心 · 讲座 · 团体辅导</h4>
+        <p style="font-size:13px;line-height:1.7;opacity:.8">每年 50+ 场校园活动 · 10 万+ 学生触达<br>校园心理角 + 树洞 + 危机预警系统</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 高校合作 ================= -->
+<section id="university" style="background:var(--cream);padding:96px 0">
+  <div class="wrap">
+    <span class="sec-kicker rv">高校合作 · UNIVERSITY PARTNERS</span>
+    <h2 class="sec-title rv d1">与全国 <span class="hl">30+ 高校</span>心理中心并肩</h2>
+    <p class="sec-sub rv d2">回声心理与高校心理中心的合作不是简单的"产品销售"，而是深度共建——从心理普查、危机预警，到讲座沙龙、团体辅导，把专业心理服务真正送进校园。</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:32px">
+      <div class="rv" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:22px;box-shadow:4px 4px 0 var(--navy);text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">🎓</div>
+        <b style="font-size:14px;display:block">心理普查 SaaS</b>
+        <p style="font-size:12px;opacity:.7;margin-top:6px;line-height:1.7">PHQ-9/GAD-7 等量表批量施测 + 自动报告 + 高危预警</p>
+      </div>
+      <div class="rv d1" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:22px;box-shadow:4px 4px 0 var(--navy);text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">💬</div>
+        <b style="font-size:14px;display:block">校园心理角</b>
+        <p style="font-size:12px;opacity:.7;margin-top:6px;line-height:1.7">匿名树洞 + AI 小回 7×24h + 校园大使运营</p>
+      </div>
+      <div class="rv d2" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:22px;box-shadow:4px 4px 0 var(--navy);text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">🎤</div>
+        <b style="font-size:14px;display:block">讲座 & 团体辅导</b>
+        <p style="font-size:12px;opacity:.7;margin-top:6px;line-height:1.7">持证咨询师进校，主题覆盖焦虑、亲密关系、学业压力</p>
+      </div>
+      <div class="rv d3" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:22px;box-shadow:4px 4px 0 var(--navy);text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">🚨</div>
+        <b style="font-size:14px;display:block">危机干预绿色通道</b>
+        <p style="font-size:12px;opacity:.7;margin-top:6px;line-height:1.7">AI 识别高危信号 → 10 分钟人工响应 → 精神科转诊</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 企业实景 ================= -->
+<section style="background:var(--butter);padding:96px 0">
+  <div class="wrap">
+    <span class="sec-kicker rv">真实办公 · OUR SPACE</span>
+    <h2 class="sec-title rv d1">北京海淀中关村 · <span class="hl">3 个面询中心</span></h2>
+    <p class="sec-sub rv d2">公司不搞「高大上」，搞「能让人坐得住」。我们的工位没有隔板，面询室有落地窗和沙发，茶水间永远有新鲜的气泡水。</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:32px">
+      <div class="rv" style="border:2.5px solid var(--navy);border-radius:22px;overflow:hidden;box-shadow:5px 5px 0 var(--navy);background:#fff">
+        <img style="width:100%;height:220px;object-fit:cover;border-bottom:3px solid var(--navy)" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=2D%20flat%20vector%20illustration%2C%20minimalist%20geometric%2C%20modern%20Beijing%20Zhongguancun%20office%20building%20exterior%20on%20sunny%20day%2C%20glass%20tower%20with%20navy%20blue%20accents%2C%20subway%20entrance%20nearby%2C%20warm%20coral%20sky%2C%20teal%20accents%2C%20healing%20palette%2C%20no%20text&image_size=landscape_4_3" alt="中关村总部外景">
+        <div style="padding:18px">
+          <h4 style="color:var(--coral-d);font-size:16px;font-weight:900;margin-bottom:6px">中关村总部外景</h4>
+          <p style="font-size:12px;line-height:1.6;opacity:.8">北京市海淀区中关村大街 17 号 · 地铁 4/10 号线海淀黄庄 · 步行 3 分钟</p>
+        </div>
+      </div>
+      <div class="rv d1" style="border:2.5px solid var(--navy);border-radius:22px;overflow:hidden;box-shadow:5px 5px 0 var(--navy);background:#fff">
+        <img style="width:100%;height:220px;object-fit:cover;border-bottom:3px solid var(--navy)" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=2D%20flat%20vector%20illustration%2C%20minimalist%20geometric%2C%20bright%20open%20office%20interior%20with%20no%20cubicles%2C%20long%20shared%20desks%20with%20laptops%20and%20plants%2C%20large%20windows%20with%20warm%20light%2C%20two%20young%20Chinese%20colleagues%20collaborating%2C%20coffee%20station%20in%20corner%2C%20coral%20teal%20cream%20navy%20palette%2C%20cozy%20healing%20atmosphere%2C%20no%20text&image_size=landscape_4_3" alt="开放工位区">
+        <div style="padding:18px">
+          <h4 style="color:var(--teal-d);font-size:16px;font-weight:900;margin-bottom:6px">开放工位区</h4>
+          <p style="font-size:12px;line-height:1.6;opacity:.8">无隔板、可自由组队、靠窗一排有升降桌 · 下午三点有下午茶</p>
+        </div>
+      </div>
+      <div class="rv d2" style="border:2.5px solid var(--navy);border-radius:22px;overflow:hidden;box-shadow:5px 5px 0 var(--navy);background:#fff">
+        <img style="width:100%;height:220px;object-fit:cover;border-bottom:3px solid var(--navy)" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=2D%20flat%20vector%20illustration%2C%20minimalist%20geometric%2C%20cozy%20psychological%20counseling%20room%20interior%2C%20soft%20beige%20sofa%20facing%20armchair%2C%20large%20floor%20window%20with%20natural%20light%2C%20small%20plant%20and%20tissue%20box%20on%20side%20table%2C%20warm%20lamp%2C%20coral%20teal%20cream%20navy%20palette%2C%20calm%20safe%20healing%20mood%2C%20no%20text&image_size=landscape_4_3" alt="面询室">
+        <div style="padding:18px">
+          <h4 style="color:var(--navy);font-size:16px;font-weight:900;margin-bottom:6px">面询室（沙发 + 落地窗）</h4>
+          <p style="font-size:12px;line-height:1.6;opacity:.8">10 间独立面询室 · 隔音 + 可调灯光 · 咨询师和来访者都能放松</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 公益 ================= -->
+<section id="welfare" style="background:var(--navy);color:var(--cream);padding:96px 0">
+  <div class="dec-blob" style="top:-60px;left:-40px;width:200px;height:200px;background:#FFD166;opacity:.18"></div>
+  <div class="wrap">
+    <span class="sec-kicker" style="border-color:var(--yellow);color:var(--yellow);background:transparent;box-shadow:3px 3px 0 rgba(255,209,102,.5)">PUBLIC WELFARE · 公益</span>
+    <h2 class="sec-title rv d1" style="color:var(--cream)">我们赚的钱，<span style="color:var(--yellow)">有一部分捐给了远方</span></h2>
+    <p class="sec-sub rv d2" style="color:rgba(255,246,236,.7)">回声将年度净利润的 8% 投入公益项目，由员工代表委员会自主决定资金去向。</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:32px">
+      <div class="rv" style="background:rgba(255,255,255,.08);border:2px solid rgba(255,209,102,.5);border-radius:18px;padding:26px">
+        <div style="font-size:48px;margin-bottom:8px">📚</div>
+        <h4 style="color:var(--yellow);font-size:17px;font-weight:900;margin-bottom:8px">偏远地区心理支教</h4>
+        <p style="font-size:13px;line-height:1.8;opacity:.9">每年暑期派出 3-5 人志愿者团队，前往云南、贵州、青海等偏远地区中学，开展心理课、团体辅导、情绪卡片活动。已覆盖 6 所学校、800+ 学生。</p>
+      </div>
+      <div class="rv d1" style="background:rgba(255,255,255,.08);border:2px solid rgba(255,139,107,.5);border-radius:18px;padding:26px">
+        <div style="font-size:48px;margin-bottom:8px">✉️</div>
+        <h4 style="color:var(--coral);font-size:17px;font-weight:900;margin-bottom:8px">「写给陌生人」信件项目</h4>
+        <p style="font-size:13px;line-height:1.8;opacity:.9">与高校心理社团合作，组织大学生给远方留守儿童、养老院老人写信，每年 2 季 · 5000+ 封信。</p>
+      </div>
+      <div class="rv d2" style="background:rgba(255,255,255,.08);border:2px solid rgba(46,196,182,.5);border-radius:18px;padding:26px">
+        <div style="font-size:48px;margin-bottom:8px">📞</div>
+        <h4 style="color:var(--teal);font-size:17px;font-weight:900;margin-bottom:8px">24h 青少年免费心理热线</h4>
+        <p style="font-size:13px;line-height:1.8;opacity:.9">回声出资运营 400-XXX-XXXX 热线，持证咨询师轮值接听，已服务 12000+ 人次。咨询师团队由公司签约咨询师义务轮班。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 关于我们 ================= -->
+<section id="about" style="background:var(--cream);padding:96px 0">
+  <div class="wrap">
+    <span class="sec-kicker rv">关于我们 · ABOUT US</span>
+    <h2 class="sec-title rv d1">18 人团队，<span class="hl">从一间社团活动室走来</span></h2>
+    <p class="sec-sub rv d2">2024 年 9 月，7 位管理学院的志愿者在心理咨询中心的一张沙发上，开始了「回声心理社」。两年后，我们注册成了一家正规公司，有 18 位全职同事、120 位签约咨询师，和一套服务 15 万年轻人的 AI + 真人咨询体系。</p>
+
+    <!-- 发展历程 -->
+    <div style="margin-top:60px">
+      <h3 style="font-size:20px;font-weight:900;margin-bottom:30px">⏳ 发展历程</h3>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative">
+        <div class="rv" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:20px;box-shadow:4px 4px 0 rgba(29,53,87,.12)">
+          <div style="color:var(--coral-d);font-weight:900;font-size:14px">2024.09</div>
+          <h5 style="font-size:15px;font-weight:900;margin-top:6px">回声心理社成立</h5>
+          <p style="font-size:12px;opacity:.65;margin-top:6px;line-height:1.7">校园心理咨询中心的一张沙发，第一批来倾诉的同学</p>
+        </div>
+        <div class="rv d1" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:20px;box-shadow:4px 4px 0 rgba(29,53,87,.12)">
+          <div style="color:var(--coral-d);font-weight:900;font-size:14px">2024.11</div>
+          <h5 style="font-size:15px;font-weight:900;margin-top:6px">种子轮 120 万</h5>
+          <p style="font-size:12px;opacity:.65;margin-top:6px;line-height:1.7">校友天使投资，社团首次有了预算做海报、印手册</p>
+        </div>
+        <div class="rv d2" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:20px;box-shadow:4px 4px 0 rgba(29,53,87,.12)">
+          <div style="color:var(--teal-d);font-weight:900;font-size:14px">2025.06</div>
+          <h5 style="font-size:15px;font-weight:900;margin-top:6px">升级服务中心</h5>
+          <p style="font-size:12px;opacity:.65;margin-top:6px;line-height:1.7">覆盖北京 3 所高校，15 位兼职志愿者，接待量月均翻 3 倍</p>
+        </div>
+        <div class="rv d3" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:20px;box-shadow:4px 4px 0 rgba(29,53,87,.12)">
+          <div style="color:#b98a00;font-weight:900;font-size:14px">2025.12</div>
+          <h5 style="font-size:15px;font-weight:900;margin-top:6px">天使轮 500 万</h5>
+          <p style="font-size:12px;opacity:.65;margin-top:6px;line-height:1.7">教育基金会投资（校园心理是教育部政策风口）</p>
+        </div>
+        <div class="rv" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:20px;box-shadow:4px 4px 0 rgba(29,53,87,.12)">
+          <div style="color:var(--blue);font-weight:900;font-size:14px">2026.03</div>
+          <h5 style="font-size:15px;font-weight:900;margin-top:6px">注册成立公司</h5>
+          <p style="font-size:12px;opacity:.65;margin-top:6px;line-height:1.7">北京海淀，7 位创始核心 + 首批 11 位全职，共 18 人</p>
+        </div>
+        <div class="rv d1" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:20px;box-shadow:4px 4px 0 rgba(29,53,87,.12)">
+          <div style="color:var(--coral-d);font-weight:900;font-size:14px">2026.05</div>
+          <h5 style="font-size:15px;font-weight:900;margin-top:6px">App 上线 + 3 城面询</h5>
+          <p style="font-size:12px;opacity:.65;margin-top:6px;line-height:1.7">AI「小回」上线，北京 / 上海 / 广州 3 个面询中心启用</p>
+        </div>
+        <div class="rv d2" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:20px;box-shadow:4px 4px 0 rgba(29,53,87,.12)">
+          <div style="color:var(--coral-d);font-weight:900;font-size:14px">2026.08</div>
+          <h5 style="font-size:15px;font-weight:900;margin-top:6px">真人咨询平台</h5>
+          <p style="font-size:12px;opacity:.65;margin-top:6px;line-height:1.7">120+ 持证咨询师入驻，与 30+ 高校心理中心合作</p>
+        </div>
+        <div class="rv d3" style="background:#fff;border:2.5px solid var(--navy);border-radius:18px;padding:20px;box-shadow:4px 4px 0 rgba(29,53,87,.12)">
+          <div style="color:var(--coral-d);font-weight:900;font-size:14px">2026.10</div>
+          <h5 style="font-size:15px;font-weight:900;margin-top:6px">全国校招</h5>
+          <p style="font-size:12px;opacity:.65;margin-top:6px;line-height:1.7">第一次以正规公司身份走进高校，找新的伙伴</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 创始团队 -->
+    <div style="margin-top:80px">
+      <h3 style="font-size:20px;font-weight:900;margin-bottom:30px">👥 7 位创始核心 + 5 位临床顾问</h3>
+      <div style="border-radius:34px;overflow:hidden;border:3px solid var(--navy);box-shadow:10px 10px 0 rgba(74,159,216,.35);transform:rotate(.8deg);max-width:920px;margin:0 auto 32px">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=2D%20flat%20vector%20illustration%2C%20minimalist%20geometric%2C%20seven%20young%20Chinese%20professionals%20collaborating%20in%20cozy%20office%2C%20one%20drawing%20cute%20whale%20mascot%20on%20whiteboard%2C%20laptops%20coffee%20plants%20sticky%20notes%20and%20heart%20speech%20bubbles%2C%20coral%20teal%20cream%20navy%20palette%2C%20warm%20teamwork%20atmosphere%2C%20wide%20composition%2C%20no%20text&image_size=landscape_16_9" alt="创始团队" style="width:100%;aspect-ratio:16/8.6;object-fit:cover">
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px">
+        <div class="rv" style="background:#fff;border:2.5px solid var(--navy);border-radius:24px;padding:26px 22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="av" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:21px;color:#fff;border:2.5px solid var(--navy);margin-bottom:16px;background:var(--coral-d)">全</div><b>全智贤</b><span style="display:inline-block;margin-top:7px;font-size:12px;font-weight:800;color:var(--teal-d);background:var(--mint);border-radius:999px;padding:4px 12px;border:1.5px solid var(--teal)">创始人 · CEO</span><p style="margin-top:12px;font-size:12.5px;line-height:1.8;opacity:.65">人力资源管理专业，回声心理社第 4 任社长。</p></div>
+        <div class="rv d1" style="background:#fff;border:2.5px solid var(--navy);border-radius:24px;padding:26px 22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="av" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:21px;color:#fff;border:2.5px solid var(--navy);margin-bottom:16px;background:var(--teal-d)">陈</div><b>陈若汛</b><span style="display:inline-block;margin-top:7px;font-size:12px;font-weight:800;color:var(--teal-d);background:var(--mint);border-radius:999px;padding:4px 12px;border:1.5px solid var(--teal)">联合创始人 · CTO</span><p style="margin-top:12px;font-size:12.5px;line-height:1.8;opacity:.65">全栈工程师，负责技术架构。</p></div>
+        <div class="rv d2" style="background:#fff;border:2.5px solid var(--navy);border-radius:24px;padding:26px 22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="av" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:21px;color:#fff;border:2.5px solid var(--navy);margin-bottom:16px;background:var(--blue)">王</div><b>王圆圆</b><span style="display:inline-block;margin-top:7px;font-size:12px;font-weight:800;color:var(--teal-d);background:var(--mint);border-radius:999px;padding:4px 12px;border:1.5px solid var(--teal)">产品总监</span><p style="margin-top:12px;font-size:12.5px;line-height:1.8;opacity:.65">把「倾诉」做成产品的细节控。</p></div>
+        <div class="rv d3" style="background:#fff;border:2.5px solid var(--navy);border-radius:24px;padding:26px 22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="av" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:21px;color:#fff;border:2.5px solid var(--navy);margin-bottom:16px;background:#E0A100">石</div><b>石语萱</b><span style="display:inline-block;margin-top:7px;font-size:12px;font-weight:800;color:var(--teal-d);background:var(--mint);border-radius:999px;padding:4px 12px;border:1.5px solid var(--teal)">设计总监</span><p style="margin-top:12px;font-size:12.5px;line-height:1.8;opacity:.65">鲸鱼 IP「小回」的设计者。</p></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px">
+        <div class="rv" style="background:#fff;border:2.5px solid var(--navy);border-radius:24px;padding:26px 22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="av" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:21px;color:#fff;border:2.5px solid var(--navy);margin-bottom:16px;background:var(--coral)">丁</div><b>丁鹏瑞</b><span style="display:inline-block;margin-top:7px;font-size:12px;font-weight:800;color:var(--teal-d);background:var(--mint);border-radius:999px;padding:4px 12px;border:1.5px solid var(--teal)">算法负责人</span><p style="margin-top:12px;font-size:12.5px;line-height:1.8;opacity:.65">NLP 情感计算方向。</p></div>
+        <div class="rv d1" style="background:#fff;border:2.5px solid var(--navy);border-radius:24px;padding:26px 22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="av" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:21px;color:#fff;border:2.5px solid var(--navy);margin-bottom:16px;background:#7BAE7F">许</div><b>许睿真</b><span style="display:inline-block;margin-top:7px;font-size:12px;font-weight:800;color:var(--teal-d);background:var(--mint);border-radius:999px;padding:4px 12px;border:1.5px solid var(--teal)">运营总监</span><p style="margin-top:12px;font-size:12.5px;line-height:1.8;opacity:.65">校园社群操盘手。</p></div>
+        <div class="rv d2" style="background:#fff;border:2.5px solid var(--navy);border-radius:24px;padding:26px 22px;box-shadow:5px 5px 0 rgba(29,53,87,.12)"><div class="av" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:21px;color:#fff;border:2.5px solid var(--navy);margin-bottom:16px;background:#8E7CC3">徐</div><b>徐晗</b><span style="display:inline-block;margin-top:7px;font-size:12px;font-weight:800;color:var(--teal-d);background:var(--mint);border-radius:999px;padding:4px 12px;border:1.5px solid var(--teal)">人力资源总监</span><p style="margin-top:12px;font-size:12.5px;line-height:1.8;opacity:.65">团队里最会「读人」的人。</p></div>
+      </div>
+      <p style="text-align:center;margin-top:28px;font-size:13px;color:#888">心理专家顾问委员会：5 位注册督导师（北京师范大学心理学部 / 北大六院背景）· 为临床专业性全程背书</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 联系我们 ================= -->
+<section id="contact" style="background:var(--coral-d);color:#fff;padding:96px 0">
+  <div class="wrap" style="text-align:center">
+    <h2 class="rv" style="font-size:clamp(30px,4.6vw,50px);font-weight:900;letter-spacing:-1px;line-height:1.3">有话，就来找我们。</h2>
+    <p class="rv d1" style="margin-top:18px;font-size:16px;opacity:.92;line-height:2">无论是合作洽谈、媒体采访、志愿者参与，还是只是想聊聊天——<br>我们都在。</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px;text-align:left;max-width:780px;margin-left:auto;margin-right:auto">
+      <div class="rv d2" style="background:rgba(255,255,255,.15);border:2.5px solid #fff;border-radius:22px;padding:24px;box-shadow:5px 5px 0 var(--navy)">
+        <div style="font-size:28px;margin-bottom:8px">📍</div>
+        <b style="font-size:15px;display:block">公司地址</b>
+        <p style="font-size:13px;margin-top:6px;opacity:.9">北京市海淀区中关村大街 17 号<br>地铁 4/10 号线海淀黄庄 · 步行 3 分钟</p>
+      </div>
+      <div class="rv d3" style="background:rgba(255,255,255,.15);border:2.5px solid #fff;border-radius:22px;padding:24px;box-shadow:5px 5px 0 var(--navy)">
+        <div style="font-size:28px;margin-bottom:8px">✉️</div>
+        <b style="font-size:15px;display:block">商务 / 合作</b>
+        <p style="font-size:13px;margin-top:6px;opacity:.9">business@echopsy.cn<br>高校合作请联系：bd@echopsy.cn</p>
+      </div>
+      <div class="rv d4" style="background:rgba(255,255,255,.15);border:2.5px solid #fff;border-radius:22px;padding:24px;box-shadow:5px 5px 0 var(--navy)">
+        <div style="font-size:28px;margin-bottom:8px">📞</div>
+        <b style="font-size:15px;display:block">用户咨询</b>
+        <p style="font-size:13px;margin-top:6px;opacity:.9">客服热线：400-XXX-XXXX<br>工作日 9:00 - 21:00</p>
+      </div>
+    </div>
+    <a class="mail rv d2 glow hb" href="mailto:hello@echopsy.cn" style="display:inline-flex;align-items:center;gap:12px;margin-top:40px;background:#fff;color:var(--navy);font-weight:900;font-size:clamp(16px,2vw,20px);padding:18px 38px;border-radius:999px;border:3px solid var(--navy);box-shadow:7px 7px 0 var(--navy);text-decoration:none">
+      hello@echopsy.cn
+    </a>
+  </div>
+</section>
+
+<!-- ================= footer ================= -->
+<footer>
+  <div class="wrap ft">
+    <div>
+      <div class="logo" style="color:#fff">
+        <svg viewBox="0 0 72 56" style="width:40px;height:31px"><ellipse cx="34" cy="34" rx="24" ry="15" fill="#FFF6EC"/><path d="M54 24q14-10 16 2-9 5-16 3z" fill="#FFF6EC"/><ellipse cx="28" cy="40" rx="14" ry="6" fill="#1D3557"/><circle cx="24" cy="30" r="3" fill="#1D3557"/><path d="M34 16q-2-8-8-10M38 16q0-9 5-12M30 17q-5-6-11-6" stroke="#FFD166" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+        <span>回声心理<small>ECHO</small></span>
+      </div>
+      <p style="margin-top:16px">让每一种情绪，都有回音。<br>北京回声心理科技有限公司 · 2026</p>
+    </div>
+    <div class="gp">
+      <b>快速导航</b><br>
+      <a href="#product">产品</a> · <a href="#counsel">真人咨询</a> · <a href="#business">业务</a><br>
+      <a href="#welfare">公益</a> · <a href="#about">关于我们</a> · <a href="recruit.html">🎓 宣讲会</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* 滚动显现 */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+/* 数字滚动 */
+const cio=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return; cio.unobserve(e.target);
+  const el=e.target,to=parseFloat(el.dataset.to),dec=parseInt(el.dataset.dec||0),t0=performance.now(),dur=1400;
+  (function tick(t){const p=Math.min((t-t0)/dur,1),ease=1-Math.pow(1-p,3);
+    el.textContent=(to*ease).toFixed(dec); if(p<1)requestAnimationFrame(tick);})(t0);
+}),{threshold:.4});
+document.querySelectorAll('.cnt').forEach(el=>cio.observe(el));
+</script>
+</body>
+</html>
