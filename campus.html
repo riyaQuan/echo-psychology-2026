@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>回声心理 MindIsle · 2026 校园招聘宣讲会</title>
+<title>回声心理 MindIsle · 2026 校园招聘</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 56'%3E%3Cellipse cx='34' cy='34' rx='24' ry='15' fill='%231D3557'/%3E%3Cpath d='M54 24q14-10 16 2-9 5-16 3z' fill='%231D3557'/%3E%3Cellipse cx='28' cy='40' rx='14' ry='6' fill='%23FFF6EC'/%3E%3Ccircle cx='24' cy='30' r='3' fill='%23FFF6EC'/%3E%3Cpath d='M34 16q-2-8-8-10M38 16q0-9 5-12M30 17q-5-6-11-6' stroke='%234A9FD8' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
 :root{
@@ -372,6 +372,36 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
 .ft .gp{text-align:right;line-height:2}
 .ft .gp b{color:#fff;font-size:14px}
 @media(max-width:700px){.ft .gp{text-align:left}}
+
+/* ===== 手机端全局适配（覆盖 inline grid 布局） ===== */
+@media(max-width:700px){
+  .wrap{padding:0 16px}
+  .sec-title{font-size:26px;line-height:1.4}
+  .sec-sub{font-size:14px}
+  section{padding:56px 0 !important}
+  .hero{padding:24px 0 48px}
+  h1{font-size:32px !important}
+
+  /* 覆盖 inline style 里的 grid 列数 */
+  [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr !important}
+  [style*="grid-template-columns: repeat(3,1fr)"]{grid-template-columns:1fr !important}
+  [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr) !important}
+  [style*="grid-template-columns: repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr) !important}
+  [style*="grid-template-columns:repeat(2,1fr)"]{grid-template-columns:1fr !important}
+  [style*="grid-template-columns: repeat(2,1fr)"]{grid-template-columns:1fr !important}
+
+  /* 卡片间距缩小 */
+  [style*="gap:22px"]{gap:14px !important}
+  [style*="gap:18px"]{gap:12px !important}
+  [style*="margin-top:32px"]{margin-top:20px !important}
+
+  /* 实景图高度 */
+  img[style*="height:220px"]{height:180px !important}
+  [style*="height:220px"]{height:180px !important}
+
+  /* hero 图缩小 */
+  .hero-grid>div:last-child{display:none}
+}
 </style>
 </head>
 <body>
@@ -513,7 +543,7 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
   </div>
 </section>
 
-<!-- ================= 业务全貌（宣讲会新增） ================= -->
+<!-- ================= 业务全貌（校园招聘新增） ================= -->
 <section style="background:#FFF3D2;padding:80px 0">
   <div class="dec-blob" style="top:-60px;left:10%;width:180px;height:180px;background:#FF8B6B;opacity:.18"></div>
   <div class="dec-blob" style="bottom:-60px;right:5%;width:180px;height:180px;background:#2EC4B6;opacity:.15"></div>
@@ -731,7 +761,7 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
               <tr><td>直接上级</td><td>职能支持部负责人</td></tr>
               <tr><td>工作地点</td><td>北京市海淀区公司总部（可接受校招季短期外出）</td></tr>
               <tr><td>岗位目标</td><td>配合搭建公司人才招聘体系，主导校园招聘全流程落地；协助开展组织发展与员工培养工作，完善基础人事管理机制，为业务部门稳定输送适配人才，支撑团队有序扩张。</td></tr>
-              <tr><td>岗位职责</td><td>1. 校园招聘执行：对接高校就业办与院系，筹备宣讲会、双选会，承担简历筛选、笔面试组织、候选人跟进与 offer 沟通，建立校招人才储备池。<br>2. 基础人事管理：办理员工入转调离手续，管理劳动合同与人事档案，核算考勤，保证人事资料完整合规。<br>3. 组织发展支持：协助搭建新人入职培训体系并组织实施，收集员工反馈，开展员工访谈与满意度调研。<br>4. 数据台账维护：统计招聘到岗率、简历转化率、人员流失率等数据，定期输出招聘复盘报表。<br>5. 制度宣导落地：解答员工关于考勤、假期、福利等人力资源政策疑问，配合完成部门交办的其他工作。</td></tr>
+              <tr><td>岗位职责</td><td>1. 校园招聘执行：对接高校就业办与院系，筹备校园招聘、双选会，承担简历筛选、笔面试组织、候选人跟进与 offer 沟通，建立校招人才储备池。<br>2. 基础人事管理：办理员工入转调离手续，管理劳动合同与人事档案，核算考勤，保证人事资料完整合规。<br>3. 组织发展支持：协助搭建新人入职培训体系并组织实施，收集员工反馈，开展员工访谈与满意度调研。<br>4. 数据台账维护：统计招聘到岗率、简历转化率、人员流失率等数据，定期输出招聘复盘报表。<br>5. 制度宣导落地：解答员工关于考勤、假期、福利等人力资源政策疑问，配合完成部门交办的其他工作。</td></tr>
               <tr><td>学历与专业要求</td><td><span style="display:inline-block;background:var(--coral-d);color:#fff;font-size:10px;font-weight:900;padding:2px 8px;border-radius:6px;margin-right:8px;vertical-align:middle;border:1.5px solid var(--navy)">硬性</span>本科及以上学历，人力资源管理、工商管理、心理学等相关专业优先。</td></tr>
               <tr><td>经验要求</td><td><span style="display:inline-block;background:var(--coral-d);color:#fff;font-size:10px;font-weight:900;padding:2px 8px;border-radius:6px;margin-right:8px;vertical-align:middle;border:1.5px solid var(--navy)">硬性</span>1. 拥有人力资源相关实习经历或校园招聘项目经验者优先；<br>2. 具有学生干部经历、心理服务或互联网初创公司人力经验者加分。</td></tr>
               <tr><td>技能要求</td><td><span style="display:inline-block;background:var(--coral-d);color:#fff;font-size:10px;font-weight:900;padding:2px 8px;border-radius:6px;margin-right:8px;vertical-align:middle;border:1.5px solid var(--navy)">硬性</span>1. 熟悉校园招聘流程与主流招聘平台操作；<br>2. 熟练使用 Office，能独立完成招聘宣讲材料与数据统计表；<br>3. 具备较好的书面表达与沟通协调能力；<br>4. 对人员信息有保密意识。</td></tr>
@@ -834,7 +864,7 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
       <h3>📅 2026 校园招聘计划表</h3>
       <table>
         <tr><th>阶段</th><th>时间</th><th>内容</th><th>负责人</th></tr>
-        <tr><td>宣讲会</td><td>11月12日</td><td>校园宣讲 + 现场互动答疑 + 接收简历</td><td>徐晗 / 全员</td></tr>
+        <tr><td>校园招聘</td><td>11月12日</td><td>校园宣讲 + 现场互动答疑 + 接收简历</td><td>徐晗 / 全员</td></tr>
         <tr><td>简历收集</td><td>11.12 – 11.20</td><td>现场、邮箱、招聘平台三渠道汇总</td><td>人力资源部</td></tr>
         <tr><td>初筛与测评</td><td>11.21 – 11.24</td><td>简历初筛，发送线上测评链接</td><td>徐晗</td></tr>
         <tr><td>初试</td><td>11.26 – 11.28</td><td>专业面试 + 无领导小组讨论</td><td>各部门负责人</td></tr>
@@ -843,7 +873,7 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
       </table>
     </div>
     <div class="chan rv d3">
-      <span class="hot">宣讲会现场投递（优先处理）</span><span>校招邮箱 hr@echopsy.cn</span><span>BOSS 直聘</span><span>实习僧</span><span>内部推荐（免初筛）</span>
+      <span class="hot">校园招聘现场投递（优先处理）</span><span>校招邮箱 hr@echopsy.cn</span><span>BOSS 直聘</span><span>实习僧</span><span>内部推荐（免初筛）</span>
     </div>
   </div>
 </section>
@@ -857,7 +887,7 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
       <svg width="26" height="26" viewBox="0 0 24 24"><path d="M3 6h18a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V7a1 1 0 011-1zm9 6.7L4 8v9h16V8z" fill="#1D3557"/></svg>
       hr@echopsy.cn
     </a>
-    <p class="note rv d3">邮件标题格式：2026校园招聘 - 姓名 - 应聘岗位 ｜ 宣讲会现场投递可获「小回」限定贴纸，并进入优先处理通道</p>
+    <p class="note rv d3">邮件标题格式：2026校园招聘 - 姓名 - 应聘岗位 ｜ 校园招聘现场投递可获「小回」限定贴纸，并进入优先处理通道</p>
   </div>
 </section>
 
@@ -869,7 +899,7 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
         <svg viewBox="0 0 72 56" style="width:40px;height:31px"><ellipse cx="34" cy="34" rx="24" ry="15" fill="#FFF6EC"/><path d="M54 24q14-10 16 2-9 5-16 3z" fill="#FFF6EC"/><ellipse cx="28" cy="40" rx="14" ry="6" fill="#1D3557"/><circle cx="24" cy="30" r="3" fill="#1D3557"/><path d="M34 16q-2-8-8-10M38 16q0-9 5-12M30 17q-5-6-11-6" stroke="#FFD166" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
         <span>回声心理<small>ECHO</small></span>
       </div>
-      <p style="margin-top:16px">让每一种情绪，都有回音。<br>回声心理 · 2026 校园招聘宣讲会<br>（本页面为《招聘管理》课程模拟招聘作业）</p>
+      <p style="margin-top:16px">让每一种情绪，都有回音。<br>回声心理 · 2026 校园招聘校园招聘<br>（本页面为《招聘管理》课程模拟招聘作业）</p>
     </div>
     <div class="gp">
       <b>招聘管理 · 第 5 组</b><br>

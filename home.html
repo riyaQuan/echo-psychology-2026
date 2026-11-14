@@ -93,6 +93,39 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
 .ft .gp{text-align:right;line-height:2}
 .ft .gp b{color:#fff;font-size:14px}
 @media(max-width:700px){.ft .gp{text-align:left}}
+
+/* ===== 手机端全局适配 ===== */
+@media(max-width:700px){
+  .wrap{padding:0 16px}
+  .sec-title{font-size:26px;line-height:1.4}
+  .sec-sub{font-size:14px}
+  section{padding:56px 0 !important}
+  .hero{padding:24px 0 48px}
+  h1{font-size:32px !important}
+
+  /* 覆盖 inline style 里的 grid 列数 */
+  [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr !important}
+  [style*="grid-template-columns: repeat(3,1fr)"]{grid-template-columns:1fr !important}
+  [style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr) !important}
+  [style*="grid-template-columns: repeat(4,1fr)"]{grid-template-columns:repeat(2,1fr) !important}
+  [style*="grid-template-columns:repeat(2,1fr)"]{grid-template-columns:1fr !important}
+  [style*="grid-template-columns: repeat(2,1fr)"]{grid-template-columns:1fr !important}
+
+  /* 创始人 7 列 → 单列 */
+  [style*="grid-template-columns:repeat(7,1fr)"]{grid-template-columns:repeat(3,1fr) !important}
+
+  /* 卡片间距缩小 */
+  [style*="gap:22px"]{gap:14px !important}
+  [style*="gap:18px"]{gap:12px !important}
+  [style*="margin-top:32px"]{margin-top:20px !important}
+
+  /* 实景图高度 */
+  img[style*="height:220px"]{height:180px !important}
+  [style*="height:220px"]{height:180px !important}
+
+  /* hero 图缩小 */
+  .hero-grid>div:last-child{display:none}
+}
 </style>
 </head>
 <body>
@@ -109,7 +142,7 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
       <a href="#product">产品</a><a href="#counsel">真人咨询</a><a href="#business">业务</a>
       <a href="#university">高校合作</a><a href="#welfare">公益</a><a href="#contact">联系</a>
     </div>
-    <a href="recruit.html" class="nav-cta" style="background:#fff;color:var(--navy);border:2px solid var(--navy);box-shadow:3px 3px 0 var(--coral-d)">🎓 宣讲会</a>
+    <a href="campus.html" class="nav-cta" style="background:#fff;color:var(--navy);border:2px solid var(--navy);box-shadow:3px 3px 0 var(--coral-d)">🎓 校园招聘</a>
     <a class="nav-cta" href="#product">下载 App</a>
   </div>
 </nav>
@@ -423,7 +456,7 @@ footer{background:var(--navy2);color:rgba(255,246,236,.75);padding:56px 0 40px;f
     <div class="gp">
       <b>快速导航</b><br>
       <a href="#product">产品</a> · <a href="#counsel">真人咨询</a> · <a href="#business">业务</a><br>
-      <a href="#welfare">公益</a> · <a href="#about">关于我们</a> · <a href="recruit.html">🎓 宣讲会</a>
+      <a href="#welfare">公益</a> · <a href="#about">关于我们</a> · <a href="campus.html">🎓 校园招聘</a>
     </div>
   </div>
 </footer>
